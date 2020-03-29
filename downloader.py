@@ -11,17 +11,12 @@ import requests
 # Author: Emanuel Ramirez Alsina
 # Date: 03/26/2020
 
-
 PLATFORMS = ['YouTube', 'Facebook', 'Instagram', 'Twitter', 'TikTok']
 
 def driver(platform, option):
-    #TODO: Defaults into hd quality and if not available give SD quality...or
-    # ask user for the format?
     url = input(f'\nEnter the URL of the {platform} video: ')
-    #TODO: Do something to check the validity of the url. For now
     html = requests.get(url).content.decode('utf-8')
 
-    #TODO: This is temporal. Refactor this
     if option == 0:
         get_youtube(url, html)
     elif option == 1:
@@ -37,7 +32,6 @@ def driver(platform, option):
 
 
 def get_facebook(url, html):
-    #TODO: check if hd quality is available if not then download in sd?
     size = 1024
     qualityhd = re.search('hd_src:"https', html)
     url_video = re.search(r'hd_src:"(.+?)"', html).group(1)
@@ -45,7 +39,6 @@ def get_facebook(url, html):
     request_status = requests.get(url).status_code
     file_size = int(request_size.headers['Content-Length'])
 
-    #TODO: Format to: "Save as: {filename}.mp4"
     filename = input('\nEnter a filename without extensions to save the video: ')
     path = os.path.dirname(__file__)
     new_path = f'videos/{filename}.mp4'
@@ -62,6 +55,7 @@ def get_facebook(url, html):
             filehandler.write(content)
     loadbar.close()
     filehandler.close()
+
     if request_status == 200:
         print('\nDownload status: Succesfull!')
     else:
@@ -96,7 +90,7 @@ def display_menu():
     print('4. TikTok')
     print('5. Exit')
 
-    option = int(input("\nPlease choose an option: "))
+    option = int(input("\nOption > "))
     if option == 5:
         print('Thank you for using Video-Downloader.\n')
         exit()
