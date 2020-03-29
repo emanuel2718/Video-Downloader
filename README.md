@@ -19,3 +19,4 @@ from different social media platforms.
 - [ ] Format to: "Save as: {filename}.mp4"
 - [ ] Add all the platforms from the menu.
 - [ ] Add system arguments functionality
+- [ ] Refactor code into seperate file/classes.

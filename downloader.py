@@ -146,6 +146,16 @@ def display_menu():
 
 
 if __name__ == '__main__':
+    import sys
+
+    #TODO: add system argument parsing
+
+    # Check for python3.
+    if sys.version_info[0] == 2:
+        print('Python3 is required.')
+        sys.exit(1)
+
+    # Check if user is connected to the internet.
     if not connection_established():
         print('\nConnection status: DOWN')
         print('\nConnect to the internet and try again.')
