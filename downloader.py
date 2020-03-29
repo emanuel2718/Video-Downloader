@@ -33,6 +33,13 @@ def driver(platform, option):
     elif option == 5:
         exit(1)
 
+def connection_established():
+    try:
+        response = urllib.request.urlopen('https://www.google.com/',\
+                                          timeout=5)
+        return True
+    except:
+        return False
 
 def get_facebook(url, html):
     url_video = re.search(r'hd_src:"(.+?)"', html).group(1)
@@ -139,7 +146,13 @@ def display_menu():
 
 
 if __name__ == '__main__':
-    display_menu()
+    if not connection_established():
+        print('\nConnection status: DOWN')
+        print('\nConnect to the internet and try again.')
+        exit()
+    else:
+        print('\nConnection: OK!')
+        display_menu()
 
 
 
