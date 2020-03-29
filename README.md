@@ -18,3 +18,4 @@ from different social media platforms.
 - [ ] Refactor function calling for the different platforms.
 - [ ] Format to: "Save as: {filename}.mp4"
 - [ ] Add all the platforms from the menu.
+- [ ] Add system arguments functionality
