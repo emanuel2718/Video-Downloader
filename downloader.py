@@ -5,6 +5,7 @@ import os
 import tqdm
 import re
 import requests
+import urllib.request
 
 
 
@@ -12,8 +13,10 @@ import requests
 # Date: 03/26/2020
 
 PLATFORMS = ['YouTube', 'Facebook', 'Instagram', 'Twitter', 'TikTok']
+SIZE = 1024
 
 def driver(platform, option):
+    #TODO: Add a connection check.
     url = input(f'\nEnter the URL of the {platform} video: ')
     html = requests.get(url).content.decode('utf-8')
 
@@ -32,8 +35,6 @@ def driver(platform, option):
 
 
 def get_facebook(url, html):
-    size = 1024
-    qualityhd = re.search('hd_src:"https', html)
     url_video = re.search(r'hd_src:"(.+?)"', html).group(1)
     request_size = requests.get(url_video, stream=True)
     request_status = requests.get(url).status_code
@@ -50,7 +51,7 @@ def get_facebook(url, html):
                     desc=filename + '.mp4', ascii=False)
 
     with open(new_path, 'wb') as filehandler:
-        for content in request_size.iter_content(size):
+        for content in request_size.iter_content(SIZE):
             loadbar.update(len(content))
             filehandler.write(content)
     loadbar.close()
@@ -59,11 +60,41 @@ def get_facebook(url, html):
     if request_status == 200:
         print('\nDownload status: Succesfull!')
     else:
-        print('\nDownload status: Failed.')
+        print('\nDownload statut: Failed.')
 
 
-def get_insta(url, html):
-    pass
+def get_instagram(url, html):
+    #TODO: Add video option
+    #TODO: Deal with private profiles images/videos.
+    print(f'\nDownloading image...')
+
+    image = re.search(r'meta property="og:image" content=[\'"]?([^\'" >]+)',\
+                     html).group()
+
+    image_link = re.sub('meta property="og:image" content="', '', image)
+    request_size = requests.get(image_link, stream=True)
+    request_status = requests.get(url).status_code
+    file_size = int(request_size.headers['Content-Length'])
+
+    filename = input('\nEnter a filename without extensions to save the image: ')
+    path = os.path.dirname(__file__)
+    new_path = f'images/{filename}.png'
+
+    loadbar = tqdm.tqdm(total=file_size, unit='B', unit_scale=True,
+                    desc=filename + '.png', ascii=False)
+
+    with open(new_path, 'wb') as filehandler:
+        for content in request_size.iter_content(SIZE):
+            loadbar.update(len(content))
+            filehandler.write(content)
+    loadbar.close()
+    filehandler.close()
+
+    if request_status == 200:
+        print('\nDownload status: Succesfull!')
+    else:
+        print('\nDownload statut: Failed.')
+
 
 def get_youtube(url, html):
     pass
