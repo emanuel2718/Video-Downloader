@@ -11,29 +11,29 @@ import requests
 # Author: Emanuel Ramirez Alsina
 # Date: 03/26/2020
 
-def main():
-    '''TODO: Make some kind of menu:
-            1. YouTube
-            2. Facebook
-            3. Instagram
-            4. Tik Tok
-    '''
-    #TODO: Make some kind of intro message.
+
+PLATFORMS = ['YouTube', 'Facebook', 'Instagram', 'Twitter', 'TikTok']
+
+def driver(platform, option):
     #TODO: Defaults into hd quality and if not available give SD quality...or
     # ask user for the format?
-    platform = input('\nPlease enter the name of the platform to get a video'
-                     + ' from: ')
-    # TODO: Maybe format the platform:
-    # User input 'youtube' -> YouTube
-
     url = input(f'\nEnter the URL of the {platform} video: ')
-
     #TODO: Do something to check the validity of the url. For now
     html = requests.get(url).content.decode('utf-8')
 
-    # This is temporal until menu is implemented.
-    if platform.upper() == 'FACEBOOK':
+    #TODO: This is temporal. Refactor this
+    if option == 0:
+        get_youtube(url, html)
+    elif option == 1:
         get_facebook(url, html)
+    elif option == 2:
+        get_instagram(url, html)
+    elif option == 3:
+        get_twitter(url, html)
+    elif option == 4:
+        get_tiktok(url, html)
+    elif option == 5:
+        exit(1)
 
 
 def get_facebook(url, html):
@@ -54,7 +54,7 @@ def get_facebook(url, html):
     print(f'Filename: {filename}.mp4')
 
     loadbar = tqdm.tqdm(total=file_size, unit='B', unit_scale=True,
-                    desc=filename, ascii=False)
+                    desc=filename + '.mp4', ascii=False)
 
     with open(new_path, 'wb') as filehandler:
         for content in request_size.iter_content(size):
@@ -67,6 +67,7 @@ def get_facebook(url, html):
     else:
         print('\nDownload status: Failed.')
 
+
 def get_insta(url, html):
     pass
 
@@ -76,9 +77,44 @@ def get_youtube(url, html):
 def get_tiktok(url, html):
     pass
 
+def display_menu():
+
+    print()
+    print('      ------------------------------------------- ')
+    print('     |                                           |')
+    print('     |        Welcome to VIDEO-DOWNLOADER        |')
+    print('     |            by Emanuel Ramirez             |')
+    print('     |                                           |')
+    print('      ------------------------------------------- ')
+
+    print('\nChoose the appropiate option for the platform from which you want'
+          + ' to get a video from.')
+    print('\n0. YouTube')
+    print('1. Facebook')
+    print('2. Instagram')
+    print('3. Twitter')
+    print('4. TikTok')
+    print('5. Exit')
+
+    option = int(input("\nPlease choose an option: "))
+    if option == 5:
+        print('Thank you for using Video-Downloader.\n')
+        exit()
+    try:
+        if option < 5:
+            pass
+        else:
+            print('\nOption not available. Chose an option from 1-5.\n')
+            exit()
+    except:
+        exit()
+
+    platform = PLATFORMS[option]
+    driver(platform, option)
 
 
 if __name__ == '__main__':
-    main()
+    display_menu()
+
 
 
