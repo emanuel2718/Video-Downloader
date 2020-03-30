@@ -5,8 +5,8 @@ from different social media platforms.
 
 ## Platforms
 - [x] Facebook (Need to refactor and format)
+- [x] Instagram
 - [ ] YouTube
-- [ ] Instagram
 - [ ] Twitter
 - [ ] TikTok
 
