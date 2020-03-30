@@ -16,8 +16,8 @@ PLATFORMS = ['YouTube', 'Facebook', 'Instagram', 'Twitter', 'TikTok']
 SIZE = 1024
 
 def driver(platform, option):
-    #TODO: Add a connection check.
-    url = input(f'\nEnter the URL of the {platform} video: ')
+    url = input(f'\nEnter the URL of the {platform} content you want to' +\
+                ' download: ')
     html = requests.get(url).content.decode('utf-8')
 
     if option == 0:
@@ -71,24 +71,30 @@ def get_facebook(url, html):
 
 
 def get_instagram(url, html):
-    #TODO: Add video option
     #TODO: Deal with private profiles images/videos.
-    print(f'\nDownloading image...')
+    options = {'image':'png', 'video':'mp4'}
 
-    image = re.search(r'meta property="og:image" content=[\'"]?([^\'" >]+)',\
-                     html).group()
+    # Check wheter the link refers to an image or a video.
+    content_type = re.search(r'<meta name="medium" content=[\'"]?([^\'" >]+)',\
+                             html).group(1)
 
-    image_link = re.sub('meta property="og:image" content="', '', image)
+    print(f'\nDownloading {content_type}...')
+
+    image = re.search(r'meta property="og:{file}" content=[\'"]?([^\'" >]+)'\
+                     .format(file=content_type), html).group()
+
+    image_link = re.sub('meta property="og:{file}" content="'\
+                        .format(file=content_type), '', image)
     request_size = requests.get(image_link, stream=True)
     request_status = requests.get(url).status_code
     file_size = int(request_size.headers['Content-Length'])
 
-    filename = input('\nEnter a filename without extensions to save the image: ')
+    filename = input(f'\nSave {content_type} as: ')
     path = os.path.dirname(__file__)
-    new_path = f'images/{filename}.png'
+    new_path = f'{content_type}s/{filename}.' + options[content_type]
 
     loadbar = tqdm.tqdm(total=file_size, unit='B', unit_scale=True,
-                    desc=filename + '.png', ascii=False)
+                    desc=filename + '.' + options[content_type], ascii=False)
 
     with open(new_path, 'wb') as filehandler:
         for content in request_size.iter_content(SIZE):
@@ -109,7 +115,11 @@ def get_youtube(url, html):
 def get_tiktok(url, html):
     pass
 
+def get_twitter(url, html):
+    pass
+
 def display_menu():
+    '''Displays the CLI menu to the user.'''
 
     print()
     print('      ------------------------------------------- ')

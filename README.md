@@ -12,11 +12,12 @@ from different social media platforms.
 
 # TODO LIST:
 - [ ] Add at least 3/5 of the platforms from the menu.
+- [x] Add option to choose from video or image (Instagram)
 - [x] Check connection before requests.
 - [ ] Default into HD; if not available use SD (Maybe ask user for format).
 - [ ] Check validity of url.
 - [ ] Refactor function calling for the different platforms.
-- [ ] Format to: "Save as: {filename}.mp4"
+- [x] Format to: "Save as: {filename}.mp4"
 - [ ] Add all the platforms from the menu.
 - [ ] Add system arguments functionality
 - [ ] Refactor code into seperate file/classes.
