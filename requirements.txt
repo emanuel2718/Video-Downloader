@@ -1,3 +1,5 @@
 urllib3==1.25.8    
 tqdm==4.43.0    
 requests==2.23.0    
+pytube3==9.6.4     
+httplib2==0.17.0    
