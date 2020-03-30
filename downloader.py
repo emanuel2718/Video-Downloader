@@ -1,18 +1,23 @@
 #!/usr/bin/env python
 
 from datetime import datetime
+from pytube import YouTube as YT
+from pytube.cli import on_progress
+
+import httplib2
 import os
-import tqdm
+import pytube
 import re
 import requests
+import tqdm
 import urllib.request
-
 
 
 # Author: Emanuel Ramirez Alsina
 # Date: 03/26/2020
 
 PLATFORMS = ['YouTube', 'Facebook', 'Instagram', 'Twitter', 'TikTok']
+OS = ""
 SIZE = 1024
 
 def driver(platform, option):
@@ -72,6 +77,8 @@ def get_facebook(url, html):
 
 def get_instagram(url, html):
     #TODO: Deal with private profiles images/videos.
+    print(html)
+    exit()
     options = {'image':'png', 'video':'mp4'}
 
     # Check wheter the link refers to an image or a video.
@@ -110,7 +117,31 @@ def get_instagram(url, html):
 
 
 def get_youtube(url, html):
-    pass
+    #TODO: Only accept YouTube url's
+    h = httplib2.Http()
+    response = h.request(url, 'HEAD')
+    if int(response[0]['status']) < 400:
+        print('\nDownload status: OK!')
+    else:
+        print("\nUrl not found. Please try again with full address (i.e)" +\
+              " 'https://youtube.com/...'\n")
+        sys.exit(1)
+
+    filename = input('Save as: ')
+    yt = YT(url, on_progress_callback=on_progress)
+    title = yt.title
+    print(f'Downloading {title}')
+
+    # Taken from https://stackoverflow.com/a/60678355.
+    yt.streams\
+          .filter(file_extension='mp4')\
+          .get_lowest_resolution()\
+          .download('videos/', filename=filename)
+
+    print('\n')
+    # Check status of video.
+    print('Download succesful!\n')
+
 
 def get_tiktok(url, html):
     pass
@@ -156,9 +187,19 @@ def display_menu():
 
 
 if __name__ == '__main__':
+    import platform
     import sys
 
+    if platform.system() == 'Darwin':
+        OS = 'Darwin'
+    elif platform.system() == 'Windows':
+        OS = "Windows"
+    elif platform.system() == 'Linux':
+        OS = "Linux"
+
+
     #TODO: add system argument parsing
+
 
     # Check for python3.
     if sys.version_info[0] == 2:
