@@ -7,8 +7,8 @@ from different social media platforms.
 - [x] Facebook (Need to refactor and format)
 - [x] Instagram
 - [x] YouTube
+- [x] TikTok
 - [ ] Twitter
-- [ ] TikTok
 
 # TODO LIST:
 - [x] Add at least 3/5 of the platforms from the menu.
