@@ -1,17 +1,21 @@
 #!/usr/bin/env python
 
+from bs4 import BeautifulSoup
 from datetime import datetime
 from pytube import YouTube as YT
 from pytube.cli import on_progress
+from selenium import webdriver
+from util import payload, header
 
 import httplib2
+import json
 import os
 import pytube
 import re
 import requests
+import pathlib
 import tqdm
 import urllib.request
-
 
 # Author: Emanuel Ramirez Alsina
 # Date: 03/26/2020
@@ -144,7 +148,36 @@ def get_youtube(url, html):
 
 
 def get_tiktok(url, html):
-    pass
+    chrome_profile = webdriver.ChromeOptions()
+    chrome_profile.add_argument(
+            '--user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like' +
+            ' Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko)' +
+            ' Version/11.0 Mobile/15A372 Safari/604.1'
+    )
+    chrome_profile.add_argument('disable-automation')
+    chrome_profile.add_argument('--profile-directory=Default')
+    chrome_profile.add_argument('--incognito')
+
+    # TODO: does this works on windows?
+    #
+    driver = webdriver.Chrome(executable_path=\
+                                str(pathlib.Path(__file__).parent.absolute())\
+                                + '/driver/chromedriver')
+    driver.delete_all_cookies()
+    driver.execute_script(
+            "Object.defineProperty(navigator, 'webdriver', {get: () =>" +\
+            " false});")
+    driver.get(url)
+
+    preety = BeautifulSoup(driver.page_source, 'html.parser')
+    data = json.loads(preety.find_all('script', attrs={'id':'videoObject'})\
+                         [0].text)
+    request = requests.get(data['contentUrl'])
+    with open('tiktok.mp4', 'wb') as file:
+        file.write(request.content)
+    file.close()
+    print('Donwload status: OK!')
+
 
 def get_twitter(url, html):
     pass
