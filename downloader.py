@@ -10,10 +10,11 @@ from util import payload, header
 import httplib2
 import json
 import os
+import pathlib
 import pytube
 import re
 import requests
-import pathlib
+import time
 import tqdm
 import urllib.request
 
@@ -148,6 +149,9 @@ def get_youtube(url, html):
 
 
 def get_tiktok(url, html):
+    #TODO: Check if video was downloaded or not. Check for any errors.
+
+    filename = input('\nSave video as: ')
     chrome_profile = webdriver.ChromeOptions()
     chrome_profile.add_argument(
             '--user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like' +
@@ -172,11 +176,19 @@ def get_tiktok(url, html):
     preety = BeautifulSoup(driver.page_source, 'html.parser')
     data = json.loads(preety.find_all('script', attrs={'id':'videoObject'})\
                          [0].text)
-    request = requests.get(data['contentUrl'])
-    with open('tiktok.mp4', 'wb') as file:
-        file.write(request.content)
+    request = requests.get(data['contentUrl'], stream=True)
+
+
+    #TODO: Add tiktok suffix before the filename.
+    with open('videos/' + filename + '.mp4', 'wb') as file:
+            file.write(request.content)
     file.close()
-    print('Donwload status: OK!')
+    print('Downloading video...\n')
+
+    # Fake loading bar for now...
+    for i in tqdm.tqdm(range(100), desc='DOWNLOADING', unit='B', unit_scale=True):
+        pass
+    print('\nDonwload status: OK!')
 
 
 def get_twitter(url, html):
@@ -247,6 +259,3 @@ if __name__ == '__main__':
     else:
         print('\nConnection: OK!')
         display_menu()
-
-
-
