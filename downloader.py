@@ -59,7 +59,7 @@ def get_facebook(url, html):
 
     filename = input('\nEnter a filename without extensions to save the video: ')
     path = os.path.dirname(__file__)
-    new_path = f'videos/{filename}.mp4'
+    new_path = f'videos/Facebook_{filename}.mp4'
 
     print(f'\nDownloading video...')
     print(f'Filename: {filename}.mp4')
@@ -82,8 +82,6 @@ def get_facebook(url, html):
 
 def get_instagram(url, html):
     #TODO: Deal with private profiles images/videos.
-    print(html)
-    exit()
     options = {'image':'png', 'video':'mp4'}
 
     # Check wheter the link refers to an image or a video.
@@ -103,7 +101,7 @@ def get_instagram(url, html):
 
     filename = input(f'\nSave {content_type} as: ')
     path = os.path.dirname(__file__)
-    new_path = f'{content_type}s/{filename}.' + options[content_type]
+    new_path = f'{content_type}s/Instagram_{filename}.' + options[content_type]
 
     loadbar = tqdm.tqdm(total=file_size, unit='B', unit_scale=True,
                     desc=filename + '.' + options[content_type], ascii=False)
@@ -133,6 +131,7 @@ def get_youtube(url, html):
         sys.exit(1)
 
     filename = input('Save as: ')
+    print()
     yt = YT(url, on_progress_callback=on_progress)
     title = yt.title
     print(f'Downloading {title}')
@@ -141,7 +140,7 @@ def get_youtube(url, html):
     yt.streams\
           .filter(file_extension='mp4')\
           .get_lowest_resolution()\
-          .download('videos/', filename=filename)
+          .download('videos/', filename='Youtube_' + filename)
 
     print('\n')
     # Check status of video.
@@ -180,7 +179,7 @@ def get_tiktok(url, html):
 
 
     #TODO: Add tiktok suffix before the filename.
-    with open('videos/' + filename + '.mp4', 'wb') as file:
+    with open('videos/TikTok_' + filename + '.mp4', 'wb') as file:
             file.write(request.content)
     file.close()
     print('Downloading video...\n')
