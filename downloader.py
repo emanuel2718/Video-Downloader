@@ -39,7 +39,7 @@ def driver(platform, option):
     elif option == 3:
         get_twitter(url, html)
     elif option == 4:
-        get_tiktok(url, html)
+        get_tiktok(url)
     elif option == 5:
         exit(1)
 
@@ -147,11 +147,12 @@ def get_youtube(url, html):
     print('Download succesful!\n')
 
 
-def get_tiktok(url, html):
+def get_tiktok(url):
     #TODO: Check if video was downloaded or not. Check for any errors.
 
     filename = input('\nSave video as: ')
     chrome_profile = webdriver.ChromeOptions()
+    print('\nSearching for video....\n')
     chrome_profile.add_argument(
             '--user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like' +
             ' Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko)' +
@@ -162,7 +163,6 @@ def get_tiktok(url, html):
     chrome_profile.add_argument('--incognito')
 
     # TODO: does this works on windows?
-    #
     driver = webdriver.Chrome(executable_path=\
                                 str(pathlib.Path(__file__).parent.absolute())\
                                 + '/driver/chromedriver')
@@ -177,12 +177,12 @@ def get_tiktok(url, html):
                          [0].text)
     request = requests.get(data['contentUrl'], stream=True)
 
+    print('Downloading video...\n')
 
     #TODO: Add tiktok suffix before the filename.
     with open('videos/TikTok_' + filename + '.mp4', 'wb') as file:
             file.write(request.content)
     file.close()
-    print('Downloading video...\n')
 
     # Fake loading bar for now...
     for i in tqdm.tqdm(range(100), desc='DOWNLOADING', unit='B', unit_scale=True):
