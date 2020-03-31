@@ -14,6 +14,8 @@ from different social media platforms.
 - [x] Add at least 3/5 of the platforms from the menu.
 - [x] Add option to choose from video or image (Instagram)
 - [x] Check connection before requests.
+- [ ] Make all the platforms interactions uniform throughout (i.e Ask the same things.)
+- [ ] Add option to save the file under the same name of the original content.
 - [ ] Default into HD; if not available use SD (Maybe ask user for format).
 - [ ] Check validity of url for all platforms.
 - [ ] Refactor function calling for the different platforms.
