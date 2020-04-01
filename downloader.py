@@ -78,6 +78,7 @@ def get_facebook(url, html):
         print('\nDownload status: Succesfull!')
     else:
         print('\nDownload statut: Failed.')
+    return request_status
 
 
 def get_instagram(url, html):
@@ -117,6 +118,7 @@ def get_instagram(url, html):
         print('\nDownload status: Succesfull!')
     else:
         print('\nDownload statut: Failed.')
+    return request_status
 
 
 def get_youtube(url, html):
@@ -145,6 +147,7 @@ def get_youtube(url, html):
     print('\n')
     # Check status of video.
     print('Download succesful!\n')
+    return response
 
 
 def get_tiktok(url):
@@ -156,8 +159,7 @@ def get_tiktok(url):
     chrome_profile.add_argument(
             '--user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like' +
             ' Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko)' +
-            ' Version/11.0 Mobile/15A372 Safari/604.1'
-    )
+            ' Version/11.0 Mobile/15A372 Safari/604.1')
     chrome_profile.add_argument('disable-automation')
     chrome_profile.add_argument('--profile-directory=Default')
     chrome_profile.add_argument('--incognito')
@@ -188,6 +190,8 @@ def get_tiktok(url):
     for i in tqdm.tqdm(range(100), desc='DOWNLOADING', unit='B', unit_scale=True):
         pass
     print('\nDonwload status: OK!')
+
+    return request
 
 
 def get_twitter(url, html):
