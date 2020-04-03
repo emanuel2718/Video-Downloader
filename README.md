@@ -1,13 +1,36 @@
 # Video-Downloader [![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-blue.svg)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html)
 
-The idea of this project is for it to be the goto place to get videos/photos
-from different social media platforms.
+<h1 align="center" style="font-size: 3rem;">
+Video-Downloader
+</h1>
 
-## Platforms
-- [x] Facebook (Need to refactor and format)
+The idea of this project is for it to be the go-to place to get videos/photos
+from different social media platforms. This project was intented to help me get
+some of my old Facebook videos on my personal Hard Drive but it led to the idea
+of expanding the project to be able to download from all the main social media
+platforms.
+
+*Disclaimer*: Only public videos can be downloaded and all credits should be
+given to the author of the downloaded video and should not be used for
+commercial use.
+
+# Installation:
+
+Clone this repo:
+```sh
+git clone https://github.com/emanuel2718/Video-Downloader.git
+```
+Intall requirements:
+```sh
+pip install -r requirements.txt
+```
+
+
+## Currently supported platforms:
+- [x] Facebook
 - [x] Instagram
 - [x] YouTube
-- [x] TikTok
+- [x] TikTok (Having problems)
 - [ ] Twitter
 
 # TODO LIST:

@@ -175,8 +175,8 @@ def get_tiktok(url):
     driver.get(url)
 
     preety = BeautifulSoup(driver.page_source, 'html.parser')
-    data = json.loads(preety.find_all('script', attrs={'id':'videoObject'})\
-                         [0].text)
+    data = json.loads(preety.find_all('script',\
+                            attrs={'id':'videoObject'})[0].text)
     request = requests.get(data['contentUrl'], stream=True)
 
     print('Downloading video...\n')
@@ -195,6 +195,7 @@ def get_tiktok(url):
 
 
 def get_twitter(url, html):
+    #TODO: Need to implement this.
     pass
 
 def display_menu():
