@@ -37,6 +37,7 @@ pip install -r requirements.txt
 - [x] Add at least 3/5 of the platforms from the menu.
 - [x] Add option to choose from video or image (Instagram)
 - [x] Check connection before requests.
+- [ ] (Youtube) Add option to save audio only.
 - [ ] Create testers for all the platforms.
 - [ ] Make all the platforms interactions uniform throughout (i.e Ask the same things.)
 - [ ] Add option to save the file under the same name of the original content.
