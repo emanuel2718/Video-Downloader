@@ -46,5 +46,5 @@ pip install -r requirements.txt
 - [ ] Refactor function calling for the different platforms.
 - [x] Format to: "Save as: {filename}.mp4"
 - [ ] Add all the platforms from the menu.
-- [ ] Add system arguments functionality
+- [x] Add system arguments functionality
 - [ ] Refactor code into seperate file/classes.
