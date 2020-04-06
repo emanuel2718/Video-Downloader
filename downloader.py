@@ -7,6 +7,7 @@ from pytube.cli import on_progress
 from selenium import webdriver
 from util import payload, header
 
+import argparse
 import httplib2
 import json
 import os
@@ -28,8 +29,11 @@ SIZE = 1024
 def driver(platform, option):
     url = input(f'\nEnter the URL of the {platform} content you want to' +\
                 ' download: ')
-    html = requests.get(url).content.decode('utf-8')
+    get_options(url, option)
 
+def get_options(url, option):
+
+    html = requests.get(url).content.decode('utf-8')
     if option == 0:
         get_youtube(url, html)
     elif option == 1:
@@ -235,6 +239,42 @@ def display_menu():
     driver(platform, option)
 
 
+def get_arguments():
+    parser = argparse.ArgumentParser(description='Video Downloader')
+    parser.add_argument('-youtube', dest='youtube', metavar='URL',\
+                        help='Download video from Youtube')
+    parser.add_argument('-facebook', dest='facebook', metavar='URL',\
+                        help='Download video from Facebook')
+    parser.add_argument('-instagram', dest='instagram', metavar='URL',\
+                        help='Download content from Instagram')
+    parser.add_argument('-twitter', dest='twitter', metavar='URL',\
+                        help='Download video from Twitter')
+    parser.add_argument('-tiktok', dest='tiktok', metavar='URL',\
+                        help='Download video from TikTok')
+    arg = parser.parse_args()
+
+    if sys.argv[2]:
+        if arg.youtube:
+            get_options(sys.argv[2], 0)
+        elif arg.facebook:
+            get_options(sys.argv[2], 1)
+        elif arg.instagram:
+            get_options(sys.argv[2], 2)
+        elif arg.twitter:
+            get_options(sys.argv[2], 3)
+        elif arg.tiktok:
+            get_options(sys.argv[2], 4)
+        else:
+            display_menu()
+
+    else:
+        display_menu()
+
+
+
+
+
+
 if __name__ == '__main__':
     import platform
     import sys
@@ -246,8 +286,6 @@ if __name__ == '__main__':
     elif platform.system() == 'Linux':
         OS = "Linux"
 
-
-    #TODO: add system argument parsing
 
 
     # Check for python3.
@@ -262,4 +300,11 @@ if __name__ == '__main__':
         exit()
     else:
         print('\nConnection: OK!')
-        display_menu()
+        # There is a system argument present
+        if len(sys.argv) >= 2:
+            get_arguments()
+        # No system argument.
+        else:
+            display_menu()
+
+
