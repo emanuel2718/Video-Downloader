@@ -4,6 +4,7 @@
 Video-Downloader
 </h1>
 
+*WARNING: This project is not beign mantained anymore. Use at your own risk.*
 The idea of this project is for it to be the go-to place to get videos/photos
 from different social media platforms. This project was intented to help me get
 some of my old Facebook videos on my personal Hard Drive but it led to the idea
