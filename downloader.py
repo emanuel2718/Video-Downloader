@@ -32,6 +32,11 @@ def driver(platform, option):
     get_options(url, option)
 
 def get_options(url, option):
+    """ Receive the @url from the specified platform @option and call the
+        appropiate platform method.
+
+    @param: string, int: exacto url of the video and the appropiate platform option number
+    """
 
     html = requests.get(url).content.decode('utf-8')
     if option == 0:
